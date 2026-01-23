@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calcolo Argento - Conquista Habitat</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --card:#111c33;
+      --muted:#93a4c7;
+      --text:#e8eefc;
+      --accent:#60a5fa;
+      --border:rgba(255,255,255,.10);
+      --danger:#ef4444;
+      --dangerBg:rgba(239,68,68,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(96,165,250,.25), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(52,211,153,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      padding:24px;
+    }
+    .wrap{max-width:980px;margin:0 auto}
+    header{
+      display:flex;gap:14px;align-items:center;justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .title{display:flex;gap:10px;align-items:center;}
+    .badge{
+      border:1px solid var(--border);
+      padding:6px 10px;border-radius:999px;
+      color:var(--muted);font-size:13px;
+      background:rgba(255,255,255,.03);
+    }
+    h1{font-size:22px;margin:0}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background:rgba(17,28,51,.85);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .card h2{
+      margin:0 0 12px 0;
+      font-size:16px;
+      color:#dbe6ff;
+      display:flex;gap:8px;align-items:center;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 160px;
+      gap:10px;
+      align-items:center;
+      margin-bottom:10px;
+    }
+    .row label{color:var(--muted);font-size:14px;}
+    input[type="number"]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input[type="number"]:focus{
+      border-color: rgba(96,165,250,.55);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.20);
+    }
+    .pillset{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:10px 0 6px 0;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:8px 10px;
+      display:flex;gap:8px;align-items:center;
+      cursor:pointer;
+      user-select:none;
+      font-size:14px;
+      color:var(--muted);
+    }
+    .pill input{accent-color: var(--accent)}
+    .pill.active{
+      border-color: rgba(96,165,250,.55);
+      background: rgba(96,165,250,.10);
+      color: var(--text);
+    }
+
+    .checkline{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      margin-top:10px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .checkline input{accent-color: var(--accent)}
+
+    .actions{
+      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+      margin-top:12px;
+    }
+    button{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(96,165,250,.55);
+      background: rgba(96,165,250,.18);
+      color: var(--text);
+      font-weight:600;
+      cursor:pointer;
+    }
+    button:hover{background: rgba(96,165,250,.26)}
+    button:active{transform: translateY(1px)}
+    .ghost{
+      border-color: var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+    }
+    .ghost:hover{background: rgba(255,255,255,.06)}
+    .iconbtn{
+      width:42px;height:42px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-weight:900;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+    }
+    .iconbtn:hover{background: rgba(255,255,255,.06)}
+
+    .banner{
+      display:none;
+      margin-bottom:14px;
+      border:1px solid rgba(239,68,68,.45);
+      background: var(--dangerBg);
+      color: #ffd2d2;
+      border-radius:14px;
+      padding:10px 12px;
+      line-height:1.35;
+      font-size:14px;
+    }
+    .banner strong{color:#fff}
+
+    .out{
+      margin-top:12px;
+      border-top: 1px solid var(--border);
+      padding-top:12px;
+      color: var(--muted);
+      font-size:14px;
+      line-height:1.45;
+    }
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .kpi .box{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(255,255,255,.03);
+    }
+    .kpi .label{color:var(--muted);font-size:12px}
+    .kpi .value{color:var(--text);font-size:18px;font-weight:900;margin-top:6px}
+    .steps{
+      margin-top:10px;
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:14px;
+      padding:10px 12px;
+      background: rgba(0,0,0,.12);
+      max-height: 260px;
+      overflow:auto;
+    }
+    .steps div{margin:6px 0}
+    .note{
+      margin-top:10px;
+      font-size:12px;
+      color:rgba(147,164,199,.95);
+    }
+
+    dialog{
+      width:min(880px, 92vw);
+      border:none;
+      border-radius:16px;
+      padding:0;
+      background: rgba(17,28,51,.98);
+      color: var(--text);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+    dialog::backdrop{background: rgba(0,0,0,.55);}
+    .modalHead{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:14px 14px;border-bottom:1px solid var(--border);
+    }
+    .modalTitle{display:flex;align-items:center;gap:10px;font-weight:900;}
+    .modalBody{
+      padding:14px 14px 16px 14px;
+      color: var(--muted);
+      line-height:1.55;
+      font-size:14px;
+    }
+    .modalBody h3{margin:14px 0 6px 0;color:#dbe6ff;font-size:14px;}
+    .modalBody .mono{color:#dbe6ff;}
+    .closeBtn{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .closeBtn:hover{background: rgba(255,255,255,.06)}
+/* --- STILE PULSANTE PAYPAL --- */
+.paypal-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 30px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.paypal-link {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    background: rgba(0, 112, 186, 0.15);
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 112, 186, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+    font-family: sans-serif;
+}
+.paypal-link:hover {
+    background: rgba(0, 112, 186, 0.3);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <div style="font-size:22px">🪙</div>
+        <div>
+          <h1>Calcolo Argento per Conquista Habitat</h1>
+          <div class="badge">Castello=1 · Fortezza=5 · Città=25 (equivalenti eq)</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div class="badge mono">Costi base: 1000 / 5000 / 25000</div>
+        <button class="iconbtn" id="helpBtn" title="Come funziona">?</button>
+      </div>
+    </header>
+
+    <!-- Banner errori -->
+    <div class="banner" id="errorBanner">
+      <strong>Errore:</strong> non puoi avere <strong>tutti</strong> gli habitat a zero. Inserisci almeno 1 castello (o fortezza/città) e riprova.
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>🏰 Habitat posseduti</h2>
+
+        <div class="row">
+          <label for="castelli">Castelli</label>
+          <input id="castelli" type="number" min="0" value="0" />
+        </div>
+
+        <div class="row">
+          <label for="fortezze">Fortezze (x5)</label>
+          <input id="fortezze" type="number" min="0" value="0" />
+        </div>
+
+        <div class="row" style="margin-bottom:0">
+          <label for="citta">Città (x25)</label>
+          <input id="citta" type="number" min="0" value="0" />
+        </div>
+
+        <div class="out">
+          <div class="kpi">
+            <div class="box">
+              <div class="label">Habitat equivalenti posseduti (eq)</div>
+              <div class="value" id="eqOwned">0</div>
+            </div>
+          </div>
+          <div class="note">
+            eq = castelli + (fortezze×5) + (città×25)
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🎯 Conquista</h2>
+
+        <div class="pillset" id="targetPills">
+          <label class="pill active">
+            <input type="radio" name="target" value="castello" checked />
+            🏰 Castello (1)
+          </label>
+          <label class="pill">
+            <input type="radio" name="target" value="fortezza" />
+            🏯 Fortezza (5)
+          </label>
+          <label class="pill">
+            <input type="radio" name="target" value="citta" />
+            🏙️ Città (25)
+          </label>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <label for="qty">Quanti vuoi conquistare</label>
+          <input id="qty" type="number" min="1" value="1" />
+        </div>
+
+        <label class="checkline">
+          <input id="coordinato" type="checkbox" />
+          <div>
+            <div style="color:var(--text);font-weight:800;">Coordinato (simultaneo)</div>
+            <div style="font-size:12px;margin-top:2px;">
+              Se attivo: calcola come se stessi prendendo <b>l’ultimo</b> e applica lo stesso costo a tutti.
+            </div>
+          </div>
+        </label>
+
+        <label class="checkline">
+          <input id="promo50" type="checkbox" />
+          <div>
+            <div style="color:var(--text);font-weight:800;">Promo al 50%</div>
+            <div style="font-size:12px;margin-top:2px;">
+              Se attivo: il costo di argento viene dimezzato.
+            </div>
+          </div>
+        </label>
+
+        <div class="actions">
+          <button id="calcBtn">Calcola</button>
+          <button class="ghost" id="resetBtn" type="button">Reset</button>
+        </div>
+
+        <div class="out" id="resultArea" style="display:none">
+          <div class="kpi">
+            <div class="box">
+              <div class="label">Argento per singolo habitat (da mandare su ogni target)</div>
+              <div class="value mono" id="silverPerOne">0</div>
+            </div>
+          </div>
+
+          <div class="steps" id="steps"></div>
+
+          <div class="note">
+            Regole usate:
+            <br>• eq = castelli + fortezze×5 + città×25
+            <br>• costo step (sequenziale) = eq × costo_base (1000 / 5000 / 25000), poi eq aumenta di 1/5/25
+            <br>• coordinato: eq_calcolo = eq + (N−1)×valore_target → costo singolo = eq_calcolo × costo_base
+            <br>• promo 50%: dimezza il costo.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dialog id="helpModal">
+    <div class="modalHead">
+      <div class="modalTitle">📘 Come funziona questo calcolatore</div>
+      <button class="closeBtn" id="closeHelp">Chiudi</button>
+    </div>
+    <div class="modalBody">
+      <p>
+        Inserisci quanti habitat possiedi. Se <b>castelli, fortezze e città</b> sono tutti a <b>0</b>,
+        il calcolo non parte e compare un errore (non può essere tutto a zero).
+      </p>
+
+      <h3>1) Conversione in eq</h3>
+      <p class="mono">
+        eq = (castelli × 1) + (fortezze × 5) + (città × 25)
+      </p>
+
+      <h3>2) Costi base</h3>
+      <ul>
+        <li><b>Castello:</b> 1000</li>
+        <li><b>Fortezza:</b> 5000</li>
+        <li><b>Città:</b> 25000</li>
+      </ul>
+
+      <h3>3) Modalità normale (sequenziale)</h3>
+      <p>
+        Ogni conquista costa:
+      </p>
+      <p class="mono">
+        costo_step = eq × costo_base
+      </p>
+      <p>
+        Dopo ogni conquista, eq aumenta di 1 (castello), 5 (fortezza), 25 (città). Se conquisti più habitat uno dopo l’altro,
+        nel riquadro “Dettagli” vedi i costi singoli step-by-step (es. 1000, 2000, 3000...).
+      </p>
+
+      <h3>4) Modalità Coordinato (simultaneo)</h3>
+      <p>
+        Se conquisti N habitat insieme, devi mandare lo stesso argento su ogni target, calcolato come se stessi prendendo l’ultimo:
+      </p>
+      <p class="mono">
+        eq_calcolo = eq_iniziale + (N - 1) × valore_target
+      </p>
+      <p class="mono">
+        costo_singolo = eq_calcolo × costo_base
+      </p>
+
+      <h3>5) Promo al 50%</h3>
+      <p>
+        Se attiva, dimezza qualsiasi costo.
+      </p>
+    </div>
+  </dialog>
+
+  <script>
+    const VALUE = { castello: 1, fortezza: 5, citta: 25 };
+    const COST  = { castello: 1000, fortezza: 5000, citta: 25000 };
+
+    const elCast = document.getElementById('castelli');
+    const elFort = document.getElementById('fortezze');
+    const elCity = document.getElementById('citta');
+    const elQty  = document.getElementById('qty');
+    const elCoord = document.getElementById('coordinato');
+    const elPromo = document.getElementById('promo50');
+
+    const eqOwned = document.getElementById('eqOwned');
+    const errorBanner = document.getElementById('errorBanner');
+
+    const resultArea = document.getElementById('resultArea');
+    const silverPerOne = document.getElementById('silverPerOne');
+    const steps = document.getElementById('steps');
+
+    const helpBtn = document.getElementById('helpBtn');
+    const helpModal = document.getElementById('helpModal');
+    const closeHelp = document.getElementById('closeHelp');
+
+    function n(v){
+      const x = Number(v);
+      return Number.isFinite(x) && x >= 0 ? Math.floor(x) : 0;
+    }
+    function formatIT(num){
+      return new Intl.NumberFormat('it-IT').format(num);
+    }
+
+    function getOwnedCounts(){
+      return {
+        c: n(elCast.value),
+        f: n(elFort.value),
+        t: n(elCity.value),
+      };
+    }
+
+    function isAllZero(){
+      const {c,f,t} = getOwnedCounts();
+      return (c === 0 && f === 0 && t === 0);
+    }
+
+    function showError(show){
+      errorBanner.style.display = show ? 'block' : 'none';
+    }
+
+    function getOwnedEq(){
+      const {c,f,t} = getOwnedCounts();
+      return c * VALUE.castello + f * VALUE.fortezza + t * VALUE.citta;
+    }
+
+    function getTarget(){
+      return document.querySelector('input[name="target"]:checked').value;
+    }
+
+    function updatePills(){
+      document.querySelectorAll('#targetPills .pill').forEach(p => p.classList.remove('active'));
+      const checked = document.querySelector('input[name="target"]:checked');
+      if(checked) checked.closest('.pill').classList.add('active');
+    }
+
+    function updateOwnedKPI(){
+      const eq = getOwnedEq();
+      eqOwned.textContent = formatIT(eq);
+      // Nascondo errore appena non è più tutto a zero
+      if(!isAllZero()) showError(false);
+    }
+
+    function labelOf(target){
+      return target === 'castello' ? '🏰 Castello' : target === 'fortezza' ? '🏯 Fortezza' : '🏙️ Città';
+    }
+
+    // Regola: costo step = eq * costo_base
+    function stepCost(eq, target){
+      return eq * COST[target];
+    }
+
+    function applyPromo(cost){
+      return elPromo.checked ? (cost / 2) : cost;
+    }
+
+    function calc(){
+      // Validazione: non può essere tutto a zero
+      if(isAllZero()){
+        showError(true);
+        resultArea.style.display = 'none';
+        steps.innerHTML = '';
+        silverPerOne.textContent = '0';
+        return;
+      }
+
+      showError(false);
+
+      const target = getTarget();
+      const qty = Math.max(1, Math.floor(Number(elQty.value) || 1));
+      const coordinated = !!elCoord.checked;
+
+      let eq = getOwnedEq();
+      const v = VALUE[target];
+
+      const lines = [];
+
+      if(!coordinated || qty === 1){
+        // Sequenziale: lista dei costi singoli (uno per attacco)
+        for(let i=1;i<=qty;i++){
+          const cost = applyPromo(stepCost(eq, target));
+          lines.push(`${i}) ${labelOf(target)} → eq prima: ${formatIT(eq)} | argento (singolo): ${formatIT(cost)}`);
+          eq += v;
+        }
+        // Valore grande: primo costo (quello del prossimo attacco)
+        silverPerOne.textContent = formatIT(applyPromo(stepCost(getOwnedEq(), target)));
+      } else {
+        // Coordinato: un solo valore singolo (uguale per tutti)
+        const eqCalcolo = eq + (qty - 1) * v;
+        const costSingle = applyPromo(stepCost(eqCalcolo, target));
+
+        silverPerOne.textContent = formatIT(costSingle);
+
+        lines.push(`COORDINATO (${qty} in simultanea)`);
+        lines.push(`eq iniziale: ${formatIT(eq)} | valore target: ${v}`);
+        lines.push(`eq usato per il calcolo (come se prendessi l’ultimo): ${formatIT(eqCalcolo)}`);
+        lines.push(`argento da mandare su OGNI target: ${formatIT(costSingle)}`);
+      }
+
+      steps.innerHTML = lines.map(x => `<div class="mono">${x}</div>`).join('');
+      resultArea.style.display = 'block';
+    }
+
+    document.getElementById('calcBtn').addEventListener('click', calc);
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      elCast.value = 0;
+      elFort.value = 0;
+      elCity.value = 0;
+      elQty.value = 1;
+      elCoord.checked = false;
+      elPromo.checked = false;
+      document.querySelector('input[name="target"][value="castello"]').checked = true;
+      updatePills();
+      updateOwnedKPI();
+      resultArea.style.display = 'none';
+      steps.innerHTML = '';
+      silverPerOne.textContent = '0';
+      showError(false);
+    });
+
+    document.querySelectorAll('input[name="target"]').forEach(r => r.addEventListener('change', updatePills));
+    [elCast, elFort, elCity].forEach(x => x.addEventListener('input', updateOwnedKPI));
+
+    helpBtn.addEventListener('click', () => helpModal.showModal());
+    closeHelp.addEventListener('click', () => helpModal.close());
+    helpModal.addEventListener('click', (e) => { if(e.target === helpModal) helpModal.close(); });
+
+    updatePills();
+    updateOwnedKPI();
+  </script>
+<footer class="paypal-footer">
+    <p style="font-size:12px; color:#93a4c7; margin-bottom:12px; font-family: sans-serif;">
+        Ti piace questo strumento?
+    </p>
+    <a href="https://paypal.me/Longo11" target="_blank" class="paypal-link">
+        ☕ Offrimi un caffè su PayPal
+    </a>
+</footer>
+</body>
+</html>
