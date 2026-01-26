@@ -2,7 +2,14 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <link rel="apple-touch-icon" href="https://re-panza.github.io/IL_TUO_REPO/icona.png">
+  <link rel="manifest" href="https://re-panza.github.io/IL_TUO_REPO/manifest.json">
+
   <title>Calcolo Argento - Conquista Habitat</title>
   <style>
     :root{
@@ -16,14 +23,24 @@
       --dangerBg:rgba(239,68,68,.12);
     }
     *{box-sizing:border-box}
-    body{
+  body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: radial-gradient(1200px 600px at 20% 0%, rgba(96,165,250,.25), transparent 60%),
                   radial-gradient(1000px 500px at 90% 10%, rgba(52,211,153,.18), transparent 55%),
                   var(--bg);
       color:var(--text);
-      padding:24px;
+      /* Padding dinamico per evitare che il notch copra il testo */
+      padding: env(safe-area-inset-top, 20px) 24px 24px 24px;
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    /* Riabilita la selezione solo per i numeri e i campi input */
+    input, .mono, .value, .kpi-val {
+      -webkit-user-select: text;
+      user-select: text;
     }
     .wrap{max-width:980px;margin:0 auto}
     header{
@@ -265,9 +282,15 @@
     transform: translateY(-2px);
     text-decoration: none;
 }
-  </style>
+ </style>
 </head>
 <body>
+
+  <div style="max-width: 980px; margin: 0 auto; padding: 10px 5px;">
+      <a href=" https://re-panza.github.io/lk_tool/" style="text-decoration:none; color:var(--accent); font-weight:bold; display:inline-flex; align-items:center; gap:8px;">
+          <span style="font-size:20px;">🏠</span> Torna alla Home
+      </a>
+  </div>
   <div class="wrap">
     <header>
       <div class="title">
@@ -611,3 +634,4 @@
 </footer>
 </body>
 </html>
+
