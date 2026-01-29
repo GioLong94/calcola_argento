@@ -284,6 +284,28 @@
     transform: translateY(-2px);
     text-decoration: none;
 }
+/* --- STILE ASSISTENTE RE PANZA --- */
+#ai-assistant-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif; }
+#ai-button { 
+    width: 75px; height: 75px; border-radius: 50%; background: var(--accent); 
+    display: flex; align-items: center; justify-content: center; cursor: pointer; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); overflow: hidden; border: 3px solid var(--accent); transition: transform 0.3s;
+}
+#ai-button:hover { transform: scale(1.05); }
+#ai-button img { width: 100%; height: 100%; object-fit: cover; }
+#ai-window { 
+    display: none; position: absolute; bottom: 85px; right: 0; width: 85vw; max-width: 320px; 
+    background: var(--card); border: 1px solid var(--accent); border-radius: 20px; padding: 15px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+}
+.ai-header { color: var(--accent); font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+#ai-content { max-height: 300px; overflow-y: auto; margin-bottom: 10px; }
+.ai-msg { font-size: 13px; color: var(--text); margin-bottom: 10px; line-height: 1.4; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; }
+.ai-option { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 6px 10px; border-radius: 20px; margin-bottom: 6px; cursor: pointer; font-size: 11px; display: inline-block; transition: 0.2s; }
+.ai-option:hover { background: var(--accent); color: #000; }
+.ai-input-area { display: flex; gap: 5px; border-top: 1px solid var(--border); padding-top: 10px; }
+#ai-input-text { flex: 1; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 5px; padding: 5px; font-size: 12px; }
+#ai-send-btn { background: var(--accent); border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 12px; font-weight: bold; }
  </style>
 </head>
 <body>
@@ -640,6 +662,53 @@
     // Usa la versione caricata automaticamente da version.js
     navigator.serviceWorker.register('https://re-panza.github.io/lk_tool/sw.js?v=' + APP_VERSION);
   }
+function toggleAI() {
+        const win = document.getElementById('ai-window');
+        win.style.display = win.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function resetAI() {
+        document.getElementById('ai-content').innerHTML = `
+            <p class="ai-msg">👑 Chiedimi pure dell'argento o della strategia di attacco!</p>
+            <div class="ai-option" onclick="aiAnswer(1)">❓ Cos'è l'eq?</div>
+            <div class="ai-option" onclick="aiAnswer(2)">⚔️ Sequenziale vs Coordinato</div>
+            <div class="ai-option" onclick="aiAnswer(3)">💰 Come si usa?</div>
+            <div class="ai-option" onclick="aiAnswer(4)">🛠️ Parla con me (@giolong)</div>
+        `;
+    }
+
+    function aiAnswer(choice) {
+        const content = document.getElementById('ai-content');
+        let ans = "";
+        if (choice === 1) ans = "L'**eq (Equivalente)** è la tua forza imperiale. 1 Castello=1, 1 Fortezza=5, 1 Città=25. Più eq hai, più argento costano i nuovi habitat!";
+        if (choice === 2) ans = "**Sequenziale**: conquisti uno alla volta (prezzo sale subito). **Coordinato**: attacchi simultanei; paghi per tutti il prezzo dell'ultimo target preso!";
+        if (choice === 3) ans = "Metti i tuoi habitat a sinistra, seleziona l'obiettivo a destra (es. Fortezza) e clicca CALCOLA. Ti dirò l'argento preciso per ogni slot!";
+        if (choice === 4) ans = "Per tattiche avanzate, scrivimi: <a href='https://t.me/giolong' target='_blank' style='color:var(--accent); font-weight:bold;'>@giolong</a>";
+
+        addAiMsg(ans);
+        content.innerHTML += `<div class="ai-option" onclick="resetAI()" style="margin-top:10px; opacity:0.7;">⬅️ Indietro</div>`;
+    }
+
+    function addAiMsg(text) {
+        const content = document.getElementById('ai-content');
+        content.innerHTML += `<p class="ai-msg">👑 ${text}</p>`;
+        content.scrollTop = content.scrollHeight;
+    }
+
+    function aiFreeText() {
+        const input = document.getElementById('ai-input-text');
+        const txt = input.value.toLowerCase();
+        if (txt.trim() === "") return;
+        document.getElementById('ai-content').innerHTML += `<p class="ai-msg" style="background:var(--accent); color:#000; text-align:right;">${input.value}</p>`;
+        setTimeout(() => {
+            if (txt.includes("argento") || txt.includes("costo")) addAiMsg("Il costo dipende dal tuo eq. Ricorda: le fortezze costano 5 volte un castello base!");
+            else if (txt.includes("ciao")) addAiMsg("Ciao guerriero! Vuoi espandere il tuo regno?");
+            else addAiMsg("Sono specializzato in argento! Prova a chiedermi dell'eq o del coordinato, oppure scrivi a @giolong.");
+        }, 600);
+        input.value = "";
+    }
+    
+    document.getElementById('ai-input-text')?.addEventListener("keypress", (e) => { if (e.key === "Enter") aiFreeText(); });
 </script>
 
   <footer class="paypal-footer">
@@ -650,6 +719,28 @@
           ☕ Offrimi un caffè su PayPal
       </a>
   </footer>
+  <div id="ai-assistant-container">
+    <div id="ai-window">
+        <div class="ai-header">
+            <span>👑 Assistente Re Panza</span>
+            <span onclick="toggleAI()" style="cursor:pointer">×</span>
+        </div>
+        <div id="ai-content">
+            <p class="ai-msg">👑 Salve! Vuoi sapere quanto argento ti serve per la prossima conquista? Chiedimi pure!</p>
+            <div class="ai-option" onclick="aiAnswer(1)">❓ Cos'è l'eq?</div>
+            <div class="ai-option" onclick="aiAnswer(2)">⚔️ Sequenziale vs Coordinato</div>
+            <div class="ai-option" onclick="aiAnswer(3)">💰 Come si usa il calcolo?</div>
+            <div class="ai-option" onclick="aiAnswer(4)">🛠️ Parla con Re Panza</div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="ai-input-text" placeholder="Chiedi al Re...">
+            <button id="ai-send-btn" onclick="aiFreeText()">Invia</button>
+        </div>
+    </div>
+    <div id="ai-button" onclick="toggleAI()">
+        <img src="https://re-panza.github.io/lk_tool/re-panza-ai.png" alt="Re Panza AI">
+    </div>
+</div>
 </body>
 </html>
 
