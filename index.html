@@ -15,210 +15,58 @@
 
   <title>Calcolo Argento - Conquista Habitat</title>
   <style>
-    /* ... CSS INVARIATO ... */
     :root {
-      --bg: #0f172a;
-      --card: #111c33;
-      --muted: #93a4c7;
-      --text: #e8eefc;
-      --accent: #60a5fa;
-      --border: rgba(255, 255, 255, .10);
-      --danger: #ef4444;
-      --dangerBg: rgba(239, 68, 68, .12);
+      --bg: #0f172a; --card: #111c33; --muted: #93a4c7; --text: #e8eefc; --accent: #60a5fa;
+      --border: rgba(255, 255, 255, .10); --danger: #ef4444; --dangerBg: rgba(239, 68, 68, .12);
     }
-
     * { box-sizing: border-box }
-
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: radial-gradient(1200px 600px at 20% 0%, rgba(96, 165, 250, .25), transparent 60%),
-        radial-gradient(1000px 500px at 90% 10%, rgba(52, 211, 153, .18), transparent 55%),
-        var(--bg);
-      color: var(--text);
-      padding: env(safe-area-inset-top, 20px) 24px 24px 24px;
-      -webkit-user-select: none;
-      user-select: none;
-      touch-action: manipulation;
+        radial-gradient(1000px 500px at 90% 10%, rgba(52, 211, 153, .18), transparent 55%), var(--bg);
+      color: var(--text); padding: env(safe-area-inset-top, 20px) 24px 24px 24px;
+      -webkit-user-select: none; user-select: none; touch-action: manipulation;
     }
-
-    input, .mono, .value, .kpi-val {
-      -webkit-user-select: text;
-      user-select: text;
-    }
-
+    input, .mono, .value, .kpi-val { -webkit-user-select: text; user-select: text; }
     .wrap { max-width: 980px; margin: 0 auto }
-
-    header {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
+    header { display: flex; gap: 14px; align-items: center; justify-content: space-between; margin-bottom: 18px; }
     .title { display: flex; gap: 10px; align-items: center; }
-
-    .badge {
-      border: 1px solid var(--border);
-      padding: 6px 10px;
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 13px;
-      background: rgba(255, 255, 255, .03);
-    }
-
+    .badge { border: 1px solid var(--border); padding: 6px 10px; border-radius: 999px; color: var(--muted); font-size: 13px; background: rgba(255, 255, 255, .03); }
     h1 { font-size: 22px; margin: 0 }
-
     .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
-
     @media (max-width: 860px) { .grid { grid-template-columns: 1fr } }
-
-    .card {
-      background: rgba(17, 28, 51, .85);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
-    }
-
-    .card h2 {
-      margin: 0 0 12px 0;
-      font-size: 16px;
-      color: #dbe6ff;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 160px;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
+    .card { background: rgba(17, 28, 51, .85); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
+    .card h2 { margin: 0 0 12px 0; font-size: 16px; color: #dbe6ff; display: flex; gap: 8px; align-items: center; }
+    .row { display: grid; grid-template-columns: 1fr 160px; gap: 10px; align-items: center; margin-bottom: 10px; }
     .row label { color: var(--muted); font-size: 14px; }
-
-    input[type="number"] {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, .04);
-      color: var(--text);
-      outline: none;
-      font-size: 14px;
-    }
-
-    input[type="number"]:focus {
-      border-color: rgba(96, 165, 250, .55);
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, .20);
-    }
-
+    input[type="number"] { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255, 255, 255, .04); color: var(--text); outline: none; font-size: 14px; }
+    input[type="number"]:focus { border-color: rgba(96, 165, 250, .55); box-shadow: 0 0 0 3px rgba(96, 165, 250, .20); }
     .pillset { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 6px 0; }
-
-    .pill {
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, .03);
-      border-radius: 999px;
-      padding: 8px 10px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
+    .pill { border: 1px solid var(--border); background: rgba(255, 255, 255, .03); border-radius: 999px; padding: 8px 10px; display: flex; gap: 8px; align-items: center; cursor: pointer; user-select: none; font-size: 14px; color: var(--muted); }
     .pill input { accent-color: var(--accent) }
-    .pill.active {
-      border-color: rgba(96, 165, 250, .55);
-      background: rgba(96, 165, 250, .10);
-      color: var(--text);
-    }
-
-    .checkline {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, .03);
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
+    .pill.active { border-color: rgba(96, 165, 250, .55); background: rgba(96, 165, 250, .10); color: var(--text); }
+    .checkline { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--border); background: rgba(255, 255, 255, .03); margin-top: 10px; color: var(--muted); font-size: 14px; }
     .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
-
-    button {
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(96, 165, 250, .55);
-      background: rgba(96, 165, 250, .18);
-      color: var(--text);
-      font-weight: 600;
-      cursor: pointer;
-    }
-
+    button { padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(96, 165, 250, .55); background: rgba(96, 165, 250, .18); color: var(--text); font-weight: 600; cursor: pointer; }
     .ghost { border-color: var(--border); background: rgba(255, 255, 255, .03); color: var(--muted); }
-
-    .iconbtn {
-      width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--border);
-      background: rgba(255, 255, 255, .03); color: var(--text); font-weight: 900;
-      display: grid; place-items: center; cursor: pointer;
-    }
-
-    .banner {
-      display: none; margin-bottom: 14px; border: 1px solid rgba(239, 68, 68, .45);
-      background: var(--dangerBg); color: #ffd2d2; border-radius: 14px; padding: 10px 12px; font-size: 14px;
-    }
-
+    .iconbtn { width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255, 255, 255, .03); color: var(--text); font-weight: 900; display: grid; place-items: center; cursor: pointer; }
+    .banner { display: none; margin-bottom: 14px; border: 1px solid rgba(239, 68, 68, .45); background: var(--dangerBg); color: #ffd2d2; border-radius: 14px; padding: 10px 12px; font-size: 14px; }
     .out { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; color: var(--muted); font-size: 14px; }
-
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace }
-
     .kpi .box { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: rgba(255, 255, 255, .03); margin-top: 10px; }
     .kpi .value { color: var(--text); font-size: 18px; font-weight: 900; margin-top: 6px }
-
-    .steps {
-      margin-top: 10px; border: 1px dashed rgba(255, 255, 255, .18); border-radius: 14px;
-      padding: 10px 12px; background: rgba(0, 0, 0, .12); max-height: 260px; overflow: auto;
-    }
-
-    dialog {
-      width: min(880px, 92vw); border: none; border-radius: 16px; padding: 0;
-      background: rgba(17, 28, 51, .98); color: var(--text); box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
-    }
-
+    .steps { margin-top: 10px; border: 1px dashed rgba(255, 255, 255, .18); border-radius: 14px; padding: 10px 12px; background: rgba(0, 0, 0, .12); max-height: 260px; overflow: auto; }
+    dialog { width: min(880px, 92vw); border: none; border-radius: 16px; padding: 0; background: rgba(17, 28, 51, .98); color: var(--text); box-shadow: 0 20px 60px rgba(0, 0, 0, .45); }
     dialog::backdrop { background: rgba(0, 0, 0, .55); }
-
     .modalHead { display: flex; justify-content: space-between; align-items: center; padding: 14px; border-bottom: 1px solid var(--border); }
     .modalBody { padding: 14px; color: var(--muted); line-height: 1.55; font-size: 14px; }
-
     .paypal-footer { text-align: center; margin-top: 40px; padding: 30px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-    .paypal-link {
-      color: #60a5fa; text-decoration: none; font-weight: bold; font-size: 14px;
-      background: rgba(0, 112, 186, 0.15); padding: 10px 24px; border-radius: 50px;
-      border: 1px solid rgba(0, 112, 186, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: 0.3s;
-    }
-
-    /* --- STILE ASSISTENTE COPIATO --- */
+    .paypal-link { color: #60a5fa; text-decoration: none; font-weight: bold; font-size: 14px; background: rgba(0, 112, 186, 0.15); padding: 10px 24px; border-radius: 50px; border: 1px solid rgba(0, 112, 186, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
+    
     #ai-assistant-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif; }
-    #ai-button { 
-      width: 70px; height: 70px; border-radius: 50%; background: var(--accent); 
-      display: flex; align-items: center; justify-content: center; cursor: pointer; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4); overflow: hidden; border: 2px solid var(--accent);
-    }
+    #ai-button { width: 70px; height: 70px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); overflow: hidden; border: 2px solid var(--accent); }
     #ai-button img { width: 100%; height: 100%; object-fit: cover; }
-    #ai-window { 
-      display: none; position: absolute; bottom: 85px; right: 0; width: 85vw; max-width: 320px; 
-      background: var(--card); border: 1px solid var(--accent); border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
+    #ai-window { display: none; position: absolute; bottom: 85px; right: 0; width: 85vw; max-width: 320px; background: var(--card); border: 1px solid var(--accent); border-radius: 20px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
     .ai-header { color: var(--accent); font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
     #ai-content { max-height: 250px; overflow-y: auto; margin-bottom: 10px; font-size: 13px; color: var(--text); }
     .ai-input-area { display: flex; gap: 5px; border-top: 1px solid var(--border); padding-top: 10px; }
@@ -240,18 +88,14 @@
       <div class="title">
         <div style="width: 26px; height: 26px; background: linear-gradient(135deg, #e2e8f0, #94a3b8); border-radius: 50%; border: 2px solid #cbd5e1; flex-shrink: 0;"></div>
         <div>
-          <h1 style="margin:0;">Calcolo Argento per Conquista Habitat</h1>
+          <h1 style="margin:0;">Calcolo Argento</h1>
           <div class="badge">Castello=1 · Fortezza=5 · Città=25 · Metropoli=75 (eq)</div>
         </div>
       </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <button class="iconbtn" id="helpBtn">?</button>
-      </div>
+      <button class="iconbtn" id="helpBtn">?</button>
     </header>
 
-    <div class="banner" id="errorBanner">
-      <strong>Errore:</strong> Inserisci almeno un habitat posseduto.
-    </div>
+    <div class="banner" id="errorBanner"><strong>Errore:</strong> Inserisci almeno un habitat posseduto.</div>
 
     <div class="grid">
       <div class="card">
@@ -260,9 +104,7 @@
         <div class="row"><label>Fortezze (x5)</label><input id="fortezze" type="number" min="0" value="0"></div>
         <div class="row"><label>Città (x25)</label><input id="citta" type="number" min="0" value="0"></div>
         <div class="row"><label>Metropoli (x75)</label><input id="metropoli" type="number" min="0" value="0"></div>
-        <div class="out">
-          <div class="kpi"><div class="box"><div class="label">Habitat equivalenti (eq)</div><div class="value" id="eqOwned">0</div></div></div>
-        </div>
+        <div class="out"><div class="kpi"><div class="box"><div class="label">Habitat equivalenti (eq)</div><div class="value" id="eqOwned">0</div></div></div></div>
       </div>
 
       <div class="card">
@@ -294,65 +136,6 @@
     </div>
   </dialog>
 
-  <script>
-    const VALUE = { castello: 1, fortezza: 5, citta: 25, metropoli: 75 };
-    const COST = { castello: 1000, fortezza: 5000, citta: 25000, metropoli: 75000 };
-
-    const inputs = ['castelli', 'fortezze', 'citta', 'metropoli'].map(id => document.getElementById(id));
-    const eqOwned = document.getElementById('eqOwned');
-
-    function updateOwnedKPI() {
-      const eq = inputs[0].value * 1 + inputs[1].value * 5 + inputs[2].value * 25 + inputs[3].value * 75;
-      eqOwned.textContent = new Intl.NumberFormat('it-IT').format(eq);
-    }
-
-    inputs.forEach(i => i.addEventListener('input', updateOwnedKPI));
-
-    document.getElementById('calcBtn').addEventListener('click', () => {
-      const eqOwnedVal = inputs[0].value * 1 + inputs[1].value * 5 + inputs[2].value * 25 + inputs[3].value * 75;
-      if (eqOwnedVal === 0) { document.getElementById('errorBanner').style.display = 'block'; return; }
-      
-      document.getElementById('errorBanner').style.display = 'none';
-      const target = document.querySelector('input[name="target"]:checked').value;
-      const qty = parseInt(document.getElementById('qty').value) || 1;
-      const promo = document.getElementById('promo50').checked ? 0.5 : 1;
-      const coord = document.getElementById('coordinato').checked;
-      
-      let currentEq = eqOwnedVal;
-      let lines = [];
-      let finalSingle = 0;
-
-      if (coord && qty > 1) {
-        const eqCalcolo = currentEq + (qty - 1) * VALUE[target];
-        finalSingle = eqCalcolo * COST[target] * promo;
-        lines.push(`MODALITÀ COORDINATA: Invia ${new Intl.NumberFormat('it-IT').format(finalSingle)} su ogni target.`);
-      } else {
-        for (let i = 1; i <= qty; i++) {
-          const cost = currentEq * COST[target] * promo;
-          if(i===1) finalSingle = cost;
-          lines.push(`${i}) eq: ${currentEq} -> Argento: ${new Intl.NumberFormat('it-IT').format(cost)}`);
-          currentEq += VALUE[target];
-        }
-      }
-
-      document.getElementById('silverPerOne').textContent = new Intl.NumberFormat('it-IT').format(finalSingle);
-      document.getElementById('steps').innerHTML = lines.map(l => `<div class="mono">${l}</div>`).join('');
-      document.getElementById('resultArea').style.display = 'block';
-    });
-
-    document.getElementById('resetBtn').addEventListener('click', () => location.reload());
-    document.getElementById('helpBtn').addEventListener('click', () => document.getElementById('helpModal').showModal());
-    document.getElementById('closeHelp').addEventListener('click', () => document.getElementById('helpModal').close());
-
-    // Gestione Pillole UI
-    document.querySelectorAll('.pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-      });
-    });
-  </script>
-
   <footer class="paypal-footer">
     <a href="https://paypal.me/Longo11" target="_blank" class="paypal-link">☕ Offrimi un caffè su PayPal</a>
   </footer>
@@ -380,10 +163,62 @@
   <script src="https://re-panza.github.io/re-panza-core/re_panza_brain.js"></script>
 
   <script>
+    const VALUE = { castello: 1, fortezza: 5, citta: 25, metropoli: 75 };
+    const COST = { castello: 1000, fortezza: 5000, citta: 25000, metropoli: 75000 };
+    const inputs = ['castelli', 'fortezze', 'citta', 'metropoli'].map(id => document.getElementById(id));
+    const eqOwned = document.getElementById('eqOwned');
+
+    function updateOwnedKPI() {
+      const eq = inputs[0].value * 1 + inputs[1].value * 5 + inputs[2].value * 25 + inputs[3].value * 75;
+      eqOwned.textContent = new Intl.NumberFormat('it-IT').format(eq);
+    }
+    inputs.forEach(i => i.addEventListener('input', updateOwnedKPI));
+
+    document.getElementById('calcBtn').addEventListener('click', () => {
+      const eqOwnedVal = inputs[0].value * 1 + inputs[1].value * 5 + inputs[2].value * 25 + inputs[3].value * 75;
+      if (eqOwnedVal === 0) { document.getElementById('errorBanner').style.display = 'block'; return; }
+      document.getElementById('errorBanner').style.display = 'none';
+      
+      const target = document.querySelector('input[name="target"]:checked').value;
+      const qty = parseInt(document.getElementById('qty').value) || 1;
+      const promo = document.getElementById('promo50').checked ? 0.5 : 1;
+      const coord = document.getElementById('coordinato').checked;
+      
+      let currentEq = eqOwnedVal;
+      let lines = [];
+      let finalSingle = 0;
+
+      if (coord && qty > 1) {
+        const eqCalcolo = currentEq + (qty - 1) * VALUE[target];
+        finalSingle = eqCalcolo * COST[target] * promo;
+        lines.push(`MODALITÀ COORDINATA: Invia ${new Intl.NumberFormat('it-IT').format(finalSingle)} su ogni target.`);
+      } else {
+        for (let i = 1; i <= qty; i++) {
+          const cost = currentEq * COST[target] * promo;
+          if(i===1) finalSingle = cost;
+          lines.push(`${i}) eq: ${currentEq} -> Argento: ${new Intl.NumberFormat('it-IT').format(cost)}`);
+          currentEq += VALUE[target];
+        }
+      }
+      document.getElementById('silverPerOne').textContent = new Intl.NumberFormat('it-IT').format(finalSingle);
+      document.getElementById('steps').innerHTML = lines.map(l => `<div class="mono">${l}</div>`).join('');
+      document.getElementById('resultArea').style.display = 'block';
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => location.reload());
+    document.getElementById('helpBtn').addEventListener('click', () => document.getElementById('helpModal').showModal());
+    document.getElementById('closeHelp').addEventListener('click', () => document.getElementById('helpModal').close());
+
+    document.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        pill.querySelector('input').checked = true;
+      });
+    });
+
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js');
-        });
+        window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); });
     }
   </script>
 </body>
