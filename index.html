@@ -55,14 +55,14 @@
 
   <div style="max-width:980px; margin:0 auto; padding:10px 5px;">
     <a href="https://re-panza.github.io/lk_tool/" style="text-decoration:none; color:var(--accent); font-weight:bold; display:inline-flex; align-items:center; gap:8px;">
-      <span data-lang="nav_home">🏠 Home</span>
+      🏠 Home
     </a>
   </div>
 
   <div class="wrap">
     <header>
       <div class="title">
-        <h1 data-lang="ag_title">Calcolo Argento</h1>
+        <h1>Calcolo Argento</h1>
         <div class="badge">Castello=1 · Fortezza=5 · Città=25 · Metropoli=75 (eq)</div>
       </div>
     </header>
@@ -71,7 +71,7 @@
 
     <div class="grid">
       <div class="card">
-        <h2 data-lang="ag_owned">🏰 Habitat posseduti</h2>
+        <h2>🏰 Habitat posseduti</h2>
         <div class="row"><label>Castelli</label><input id="castelli" type="number" min="0" value="0"></div>
         <div class="row"><label>Fortezze (x5)</label><input id="fortezze" type="number" min="0" value="0"></div>
         <div class="row"><label>Città (x25)</label><input id="citta" type="number" min="0" value="0"></div>
@@ -80,17 +80,17 @@
       </div>
 
       <div class="card">
-        <h2 data-lang="ag_conquest">🎯 Conquista</h2>
+        <h2>🎯 Conquista</h2>
         <div class="pillset" id="targetPills">
           <label class="pill active"><input type="radio" name="target" value="castello" checked> Castello</label>
           <label class="pill"><input type="radio" name="target" value="fortezza"> Fortezza</label>
           <label class="pill"><input type="radio" name="target" value="citta"> Città</label>
           <label class="pill"><input type="radio" name="target" value="metropoli"> Metropoli</label>
         </div>
-        <div class="row"><label data-lang="ag_qty">Quanti</label><input id="qty" type="number" min="1" value="1"></div>
-        <label class="checkline"><input id="coordinato" type="checkbox"> <b data-lang="ag_coord">Coordinato</b></label>
-        <label class="checkline"><input id="promo50" type="checkbox"> <b data-lang="ag_promo">Promo 50%</b></label>
-        <div class="actions"><button id="calcBtn" data-lang="btn_calc">CALCOLA</button><button class="ghost" id="resetBtn" data-lang="btn_reset">RESET</button></div>
+        <div class="row"><label>Quanti</label><input id="qty" type="number" min="1" value="1"></div>
+        <label class="checkline"><input id="coordinato" type="checkbox"> <b>Coordinato</b></label>
+        <label class="checkline"><input id="promo50" type="checkbox"> <b>Promo 50%</b></label>
+        <div class="actions"><button id="calcBtn">CALCOLA</button><button class="ghost" id="resetBtn">RESET</button></div>
         <div class="out" id="resultArea" style="display:none">
           <div class="kpi"><div class="box"><div class="label">Argento Singolo</div><div class="value mono" id="silverPerOne">0</div></div></div>
           <div class="steps" id="steps"></div>
@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <footer class="paypal-footer"><a href="https://paypal.me/Longo11" target="_blank" class="paypal-link" data-lang="footer_coffee">☕ PayPal</a></footer>
+  <footer class="paypal-footer"><a href="https://paypal.me/Longo11" target="_blank" class="paypal-link">☕ PayPal</a></footer>
 
   <div id="ai-assistant-container"><div id="ai-window"><div class="ai-header"><span>👑 Re Panza</span><span onclick="toggleAI()" style="cursor:pointer">×</span></div><div id="ai-content"><p>Ciao!</p></div><div class="ai-input-area"><input type="text" id="ai-input" placeholder="..."><button id="ai-send-btn" onclick="chiediAlRe()">Invia</button></div></div><div id="ai-button" onclick="toggleAI()"><img src="https://re-panza.github.io/lk_tool/re-panza-ai.png" alt="AI"></div></div>
 
